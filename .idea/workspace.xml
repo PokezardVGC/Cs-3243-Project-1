@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:Project_1" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f502e8b0-2bc4-4818-8681-bbfae3283f19" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/Project 1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helloworld.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BFS.py" beforeDir="false" afterPath="$PROJECT_DIR$/BFS.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project 1.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Project 1.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Public Testcases/1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Public Testcases/2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Public Testcases/3.txt" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2EZvVB3nBoSm31aR4df1CDRJHZg" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunManager" selected="Python.BFS">
+    <configuration name="BFS" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Project 1" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BFS.py" />
+      <option name="PARAMETERS" value="2.txt" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="DFS" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Project 1" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DFS.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="helloworld" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Project 1" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/helloworld.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.BFS" />
+      <item itemvalue="Python.DFS" />
+      <item itemvalue="Python.helloworld" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.BFS" />
+        <item itemvalue="Python.DFS" />
+        <item itemvalue="Python.helloworld" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f502e8b0-2bc4-4818-8681-bbfae3283f19" name="Default Changelist" comment="" />
+      <created>1662815942418</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1662815942418</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="602" y="116" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1662832123746">
+      <screen x="0" y="0" width="2293" height="920" />
+    </state>
+    <state x="602" y="116" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2293.920@0.0.2293.920" timestamp="1662832123746" />
+    <state width="2272" height="205" key="GridCell.Tab.0.bottom" timestamp="1662832043282">
+      <screen x="0" y="0" width="2293" height="920" />
+    </state>
+    <state width="2272" height="205" key="GridCell.Tab.0.bottom/0.0.2293.920@0.0.2293.920" timestamp="1662832043282" />
+    <state width="2272" height="205" key="GridCell.Tab.0.center" timestamp="1662832043282">
+      <screen x="0" y="0" width="2293" height="920" />
+    </state>
+    <state width="2272" height="205" key="GridCell.Tab.0.center/0.0.2293.920@0.0.2293.920" timestamp="1662832043282" />
+    <state width="2272" height="205" key="GridCell.Tab.0.left" timestamp="1662832043282">
+      <screen x="0" y="0" width="2293" height="920" />
+    </state>
+    <state width="2272" height="205" key="GridCell.Tab.0.left/0.0.2293.920@0.0.2293.920" timestamp="1662832043282" />
+    <state width="2272" height="205" key="GridCell.Tab.0.right" timestamp="1662832043282">
+      <screen x="0" y="0" width="2293" height="920" />
+    </state>
+    <state width="2272" height="205" key="GridCell.Tab.0.right/0.0.2293.920@0.0.2293.920" timestamp="1662832043282" />
+    <state width="2272" height="300" key="GridCell.Tab.1.bottom" timestamp="1662828877386">
+      <screen x="0" y="0" width="2293" height="920" />
+    </state>
+    <state width="2272" height="300" key="GridCell.Tab.1.bottom/0.0.2293.920@0.0.2293.920" timestamp="1662828877386" />
+    <state width="2272" height="300" key="GridCell.Tab.1.center" timestamp="1662828877386">
+      <screen x="0" y="0" width="2293" height="920" />
+    </state>
+    <state width="2272" height="300" key="GridCell.Tab.1.center/0.0.2293.920@0.0.2293.920" timestamp="1662828877386" />
+    <state width="2272" height="300" key="GridCell.Tab.1.left" timestamp="1662828877386">
+      <screen x="0" y="0" width="2293" height="920" />
+    </state>
+    <state width="2272" height="300" key="GridCell.Tab.1.left/0.0.2293.920@0.0.2293.920" timestamp="1662828877386" />
+    <state width="2272" height="300" key="GridCell.Tab.1.right" timestamp="1662828877386">
+      <screen x="0" y="0" width="2293" height="920" />
+    </state>
+    <state width="2272" height="300" key="GridCell.Tab.1.right/0.0.2293.920@0.0.2293.920" timestamp="1662828877386" />
+    <state x="649" y="106" key="SettingsEditor" timestamp="1662816516570">
+      <screen x="0" y="0" width="2293" height="920" />
+    </state>
+    <state x="649" y="106" key="SettingsEditor/0.0.2293.920@0.0.2293.920" timestamp="1662816516570" />
+  </component>
+</project>
