@@ -20,20 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f502e8b0-2bc4-4818-8681-bbfae3283f19" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Project 1.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/3.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helloworld.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BFS.py" beforeDir="false" afterPath="$PROJECT_DIR$/BFS.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project 1.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Project 1.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public Testcases/1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public Testcases/2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public Testcases/3.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +65,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BFS.py" />
-      <option name="PARAMETERS" value="2.txt" />
+      <option name="PARAMETERS" value="3.txt" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -167,26 +155,26 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="602" y="116" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1662832123746">
+    <state x="602" y="116" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1662841914831">
       <screen x="0" y="0" width="2293" height="920" />
     </state>
-    <state x="602" y="116" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2293.920@0.0.2293.920" timestamp="1662832123746" />
-    <state width="2272" height="205" key="GridCell.Tab.0.bottom" timestamp="1662832043282">
+    <state x="602" y="116" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2293.920@0.0.2293.920" timestamp="1662841914831" />
+    <state width="2272" height="205" key="GridCell.Tab.0.bottom" timestamp="1662841891409">
       <screen x="0" y="0" width="2293" height="920" />
     </state>
-    <state width="2272" height="205" key="GridCell.Tab.0.bottom/0.0.2293.920@0.0.2293.920" timestamp="1662832043282" />
-    <state width="2272" height="205" key="GridCell.Tab.0.center" timestamp="1662832043282">
+    <state width="2272" height="205" key="GridCell.Tab.0.bottom/0.0.2293.920@0.0.2293.920" timestamp="1662841891409" />
+    <state width="2272" height="205" key="GridCell.Tab.0.center" timestamp="1662841891409">
       <screen x="0" y="0" width="2293" height="920" />
     </state>
-    <state width="2272" height="205" key="GridCell.Tab.0.center/0.0.2293.920@0.0.2293.920" timestamp="1662832043282" />
-    <state width="2272" height="205" key="GridCell.Tab.0.left" timestamp="1662832043282">
+    <state width="2272" height="205" key="GridCell.Tab.0.center/0.0.2293.920@0.0.2293.920" timestamp="1662841891409" />
+    <state width="2272" height="205" key="GridCell.Tab.0.left" timestamp="1662841891409">
       <screen x="0" y="0" width="2293" height="920" />
     </state>
-    <state width="2272" height="205" key="GridCell.Tab.0.left/0.0.2293.920@0.0.2293.920" timestamp="1662832043282" />
-    <state width="2272" height="205" key="GridCell.Tab.0.right" timestamp="1662832043282">
+    <state width="2272" height="205" key="GridCell.Tab.0.left/0.0.2293.920@0.0.2293.920" timestamp="1662841891409" />
+    <state width="2272" height="205" key="GridCell.Tab.0.right" timestamp="1662841891409">
       <screen x="0" y="0" width="2293" height="920" />
     </state>
-    <state width="2272" height="205" key="GridCell.Tab.0.right/0.0.2293.920@0.0.2293.920" timestamp="1662832043282" />
+    <state width="2272" height="205" key="GridCell.Tab.0.right/0.0.2293.920@0.0.2293.920" timestamp="1662841891409" />
     <state width="2272" height="300" key="GridCell.Tab.1.bottom" timestamp="1662828877386">
       <screen x="0" y="0" width="2293" height="920" />
     </state>

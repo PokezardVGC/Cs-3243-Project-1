@@ -6,10 +6,12 @@ import sys
 ######## Piece
 #############################################################################
 class Piece:
-    def __init__(self, piece_type, x, y):
+    def __init__(self, piece_type, x, y, max_x, max_y):
         self.piece_type = piece_type
         self.x = x
         self.y = y
+        self.max_x = max_x
+        self.max_y = max_y
 
     def get_coord(self):
         return chr(self.x + 97), self.y
@@ -23,21 +25,250 @@ class Piece:
     def get_y(self):
         return self.y
 
+    def get_max_x(self):
+        return self.max_x
+
+    def get_max_y(self):
+        return self.max_y
+
 
 class King(Piece):
-    def __init__(self, x, y):
-        super().__init__('King', x, y)
+    def __init__(self, x, y, max_x, max_y):
+        super().__init__('King', x, y, max_x, max_y)
 
     def get_actions(self):
         ls = []
-        right = King(self.get_x() + 1, self.get_y())
+        right = King(self.get_x() + 1, self.get_y(), self.get_max_x(), self.get_max_y())
         ls.append(right)
-        left = King(self.get_x() - 1, self.get_y())
+        left = King(self.get_x() - 1, self.get_y(), self.get_max_x(), self.get_max_y())
         ls.append(left)
-        down = King(self.get_x(), self.get_y() - 1)
+        down = King(self.get_x(), self.get_y() - 1, self.get_max_x(), self.get_max_y())
         ls.append(down)
-        up = King(self.get_x(), self.get_y() + 1)
+        up = King(self.get_x(), self.get_y() + 1, self.get_max_x(), self.get_max_y())
         ls.append(up)
+        diag_left_up = King(self.get_x() - 1, self.get_y() + 1, self.get_max_x(), self.get_max_y())
+        ls.append(diag_left_up)
+        diag_right_up = King(self.get_x() + 1, self.get_y() + 1, self.get_max_x(), self.get_max_y())
+        ls.append(diag_right_up)
+        diag_left_down = King(self.get_x() - 1, self.get_y() - 1, self.get_max_x(), self.get_max_y())
+        ls.append(diag_left_down)
+        diag_right_down = King(self.get_x() + 1, self.get_y() - 1, self.get_max_x(), self.get_max_y())
+        ls.append(diag_right_down)
+        return ls
+
+
+class Rook(Piece):
+    def __init__(self, x, y, max_x, max_y):
+        super().__init__('Rook', x, y, max_x, max_y)
+
+    def get_actions(self):
+        ls = []
+        for i in range(self.get_max_x()):
+            piece = Rook(i, self.get_y(), self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+        for i in range(self.get_max_y()):
+            piece = Rook(self.get_x(), i, self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+        return ls
+
+
+class Bishop(Piece):
+    def __init__(self, x, y, max_x, max_y):
+        super().__init__('Bishop', x, y, max_x, max_y)
+
+    def get_actions(self):
+        ls = []
+
+        counter_2 = 0
+        for i in range(self.x - 1, - 1, -1):
+            counter_2 -= 1
+            piece = Bishop(i, self.y + counter_2, self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+
+        counter_1 = 0
+        for i in range(self.x + 1, self.get_max_x()):
+            counter_1 += 1
+            piece = Bishop(i, self.y + counter_1, self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+
+        counter_3 = 0
+        for i in range(self.y - 1, - 1, -1):
+            counter_3 += 1
+            piece = Bishop(self.x + counter_3, i, self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+
+        counter_4 = 0
+        for i in range(self.y + 1, self.get_max_y()):
+            counter_4 += 1
+            piece = Bishop(self.x - counter_4, i, self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+
+        return ls
+
+
+class Queen(Piece):
+    def __init__(self, x, y, max_x, max_y):
+        super().__init__("Queen", x, y, max_x, max_y)
+
+    def get_actions(self):
+        ls = []
+        for i in range(self.get_max_x()):
+            piece = Rook(i, self.get_y(), self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+        for i in range(self.get_max_y()):
+            piece = Rook(self.get_x(), i, self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+        counter_2 = 0
+        for i in range(self.x - 1, - 1, -1):
+            counter_2 -= 1
+            piece = Bishop(i, self.y + counter_2, self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+
+        counter_1 = 0
+        for i in range(self.x + 1, self.get_max_x()):
+            counter_1 += 1
+            piece = Bishop(i, self.y + counter_1, self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+
+        counter_3 = 0
+        for i in range(self.y - 1, - 1, -1):
+            counter_3 += 1
+            piece = Bishop(self.x + counter_3, i, self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+
+        counter_4 = 0
+        for i in range(self.y + 1, self.get_max_y()):
+            counter_4 += 1
+            piece = Bishop(self.x - counter_4, i, self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+        return ls
+
+
+class Knight(Piece):
+    def __init__(self, x, y, max_x, max_y):
+        super().__init__('Knight', x, y, max_x, max_y)
+
+    def get_actions(self):
+        ls = []
+        top_left = Knight(self.get_x() - 1, self.get_y() + 2, self.get_max_x(), self.get_max_y())
+        ls.append(top_left)
+        top_right = Knight(self.get_x() + 1, self.get_y() + 2, self.get_max_x(), self.get_max_y())
+        ls.append(top_right)
+        bottom_left = Knight(self.get_x() - 1, self.get_y() - 2, self.get_max_x(), self.get_max_y())
+        ls.append(bottom_left)
+        bottom_right = Knight(self.get_x() + 1, self.get_y() - 2, self.get_max_x(), self.get_max_y())
+        ls.append(bottom_right)
+
+        left_top = Knight(self.get_x() - 2, self.get_y() + 1, self.get_max_x(), self.get_max_y())
+        ls.append(left_top)
+        left_top = Knight(self.get_x() - 2, self.get_y() - 1, self.get_max_x(), self.get_max_y())
+        ls.append(left_top)
+        right_top = Knight(self.get_x() + 2, self.get_y() + 1, self.get_max_x(), self.get_max_y())
+        ls.append(right_top)
+        right_top = Knight(self.get_x() + 2, self.get_y() - 1, self.get_max_x(), self.get_max_y())
+        ls.append(right_top)
+        return ls
+
+
+class Ferz(Piece):
+    def __init__(self, x, y, max_x, max_y):
+        super().__init__('Ferz', x, y, max_x, max_y)
+
+    def get_actions(self):
+        ls = []
+        diag_left_up = King(self.get_x() - 1, self.get_y() + 1, self.get_max_x(), self.get_max_y())
+        ls.append(diag_left_up)
+        diag_right_up = King(self.get_x() + 1, self.get_y() + 1, self.get_max_x(), self.get_max_y())
+        ls.append(diag_right_up)
+        diag_left_down = King(self.get_x() - 1, self.get_y() - 1, self.get_max_x(), self.get_max_y())
+        ls.append(diag_left_down)
+        diag_right_down = King(self.get_x() + 1, self.get_y() - 1, self.get_max_x(), self.get_max_y())
+        ls.append(diag_right_down)
+        return ls
+
+
+class Princess(Piece):
+    def __init__(self, x, y, max_x, max_y):
+        super().__init__('Princess', x, y, max_x, max_y)
+
+    def get_actions(self):
+        ls = []
+
+        counter_2 = 0
+        for i in range(self.x - 1, - 1, -1):
+            counter_2 -= 1
+            piece = Bishop(i, self.y + counter_2, self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+
+        counter_1 = 0
+        for i in range(self.x + 1, self.get_max_x()):
+            counter_1 += 1
+            piece = Bishop(i, self.y + counter_1, self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+
+        counter_3 = 0
+        for i in range(self.y - 1, - 1, -1):
+            counter_3 += 1
+            piece = Bishop(self.x + counter_3, i, self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+
+        counter_4 = 0
+        for i in range(self.y + 1, self.get_max_y()):
+            counter_4 += 1
+            piece = Bishop(self.x - counter_4, i, self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+
+        top_left = Knight(self.get_x() - 1, self.get_y() + 2, self.get_max_x(), self.get_max_y())
+        ls.append(top_left)
+        top_right = Knight(self.get_x() + 1, self.get_y() + 2, self.get_max_x(), self.get_max_y())
+        ls.append(top_right)
+        bottom_left = Knight(self.get_x() - 1, self.get_y() - 2, self.get_max_x(), self.get_max_y())
+        ls.append(bottom_left)
+        bottom_right = Knight(self.get_x() + 1, self.get_y() - 2, self.get_max_x(), self.get_max_y())
+        ls.append(bottom_right)
+
+        left_top = Knight(self.get_x() - 2, self.get_y() + 1, self.get_max_x(), self.get_max_y())
+        ls.append(left_top)
+        left_top = Knight(self.get_x() - 2, self.get_y() - 1, self.get_max_x(), self.get_max_y())
+        ls.append(left_top)
+        right_top = Knight(self.get_x() + 2, self.get_y() + 1, self.get_max_x(), self.get_max_y())
+        ls.append(right_top)
+        right_top = Knight(self.get_x() + 2, self.get_y() - 1, self.get_max_x(), self.get_max_y())
+        ls.append(right_top)
+        return ls
+
+
+class Empress(Piece):
+    def __init__(self, x, y, max_x, max_y):
+        super().__init__('PEmpress', x, y, max_x, max_y)
+
+    def get_actions(self):
+        ls = []
+
+        for i in range(self.get_max_x()):
+            piece = Rook(i, self.get_y(), self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+        for i in range(self.get_max_y()):
+            piece = Rook(self.get_x(), i, self.get_max_x(), self.get_max_y())
+            ls.append(piece)
+
+        top_left = Knight(self.get_x() - 1, self.get_y() + 2, self.get_max_x(), self.get_max_y())
+        ls.append(top_left)
+        top_right = Knight(self.get_x() + 1, self.get_y() + 2, self.get_max_x(), self.get_max_y())
+        ls.append(top_right)
+        bottom_left = Knight(self.get_x() - 1, self.get_y() - 2, self.get_max_x(), self.get_max_y())
+        ls.append(bottom_left)
+        bottom_right = Knight(self.get_x() + 1, self.get_y() - 2, self.get_max_x(), self.get_max_y())
+        ls.append(bottom_right)
+
+        left_top = Knight(self.get_x() - 2, self.get_y() + 1, self.get_max_x(), self.get_max_y())
+        ls.append(left_top)
+        left_top = Knight(self.get_x() - 2, self.get_y() - 1, self.get_max_x(), self.get_max_y())
+        ls.append(left_top)
+        right_top = Knight(self.get_x() + 2, self.get_y() + 1, self.get_max_x(), self.get_max_y())
+        ls.append(right_top)
+        right_top = Knight(self.get_x() + 2, self.get_y() - 1, self.get_max_x(), self.get_max_y())
+        ls.append(right_top)
         return ls
 
 
@@ -56,7 +287,7 @@ class Board:
 ######## State
 #############################################################################
 class State:
-    def __init__(self, board, enemy_pieces, own_piece, goals, max_x, max_y, path, action_cost):
+    def __init__(self, board, enemy_pieces, own_piece, goals, max_y, max_x, path, action_cost):
         self.board = board
         self.enemy_pieces = enemy_pieces
         self.own_piece = own_piece
@@ -88,14 +319,13 @@ class State:
             if piece.get_x() + 1 > self.max_x or piece.get_x() < 0 or piece.get_y() - 1 < 0 or piece.get_y() + 1 > self.max_y:
                 pieces.remove(piece)
 
-
         # remove pieces on enemy pieces
         copy_pieces_enemy = pieces.copy()
         for enemy_piece in self.enemy_pieces:
             for own_piece in copy_pieces_enemy:
                 # list comprehension for all possible enemy moves
                 enemy_moves = [i.get_coord() for i in enemy_piece.get_actions()].append(enemy_piece.get_coord())
-                if own_piece.get_coord() in enemy_moves:
+                if enemy_moves and own_piece.get_coord() in enemy_moves:
                     pieces.remove(own_piece)
 
         # remove pieces in obstacles
@@ -130,8 +360,8 @@ class State:
 #############################################################################
 ######## Implement Search Algorithm
 #############################################################################
-def search(rows, cols, grid, enemy_pieces, own_pieces, goals):
-    start_state = State(grid, enemy_pieces, own_pieces, goals, rows, cols, [own_pieces.get_coord()], 0)
+def search(cols, rows, grid, enemy_pieces, own_pieces, goals):
+    start_state = State(grid, enemy_pieces, own_pieces, goals, cols, rows, [own_pieces.get_coord()], 0)
     queue = []
     visited = [[False for i in range(cols)] for j in range(rows)]
     queue.append(start_state)
@@ -221,14 +451,45 @@ def from_chess_coord(ch_coord):
 def run_BFS():
     testcase = sys.argv[1]
     rows, cols, grid, enemy_pieces, own_pieces, goals = parse(testcase)
-    own_piece = King(own_pieces[0][1][0], own_pieces[0][1][1])
-    ##enemy_pieces_list = []
-    ##for enemy in enemy_pieces:
-    ##    piece = "error"
-    ##    if enemy[0] == "king":
-    ##        piece = King(enemy[1][0], enemy[1][1])
-    ##        enemy_pieces_list.append(piece)
-    moves = search(rows, cols, grid, enemy_pieces, own_piece, goals)
+    own_piece = King(own_pieces[0][1][0], own_pieces[0][1][1], cols, rows)
+    enemy_pieces_list = []
+    for enemy in enemy_pieces:
+        piece = "error"
+        if enemy[0] == "King":
+            piece = King(enemy[1][0], enemy[1][1], cols, rows)
+            enemy_pieces_list.append(piece)
+        if enemy[0] == "Rook":
+            piece = Rook(enemy[1][0], enemy[1][1], cols, rows)
+            enemy_pieces_list.append(piece)
+        if enemy[0] == "Bishop":
+            piece = Bishop(enemy[1][0], enemy[1][1], cols, rows)
+            enemy_pieces_list.append(piece)
+        if enemy[0] == "Queen":
+            piece = Queen(enemy[1][0], enemy[1][1], cols, rows)
+            enemy_pieces_list.append(piece)
+        if enemy[0] == "Knight":
+            piece = Knight(enemy[1][0], enemy[1][1], cols, rows)
+            enemy_pieces_list.append(piece)
+        if enemy[0] == "Ferz":
+            piece = Ferz(enemy[1][0], enemy[1][1], cols, rows)
+            enemy_pieces_list.append(piece)
+        if enemy[0] == "Princess":
+            piece = Princess(enemy[1][0], enemy[1][1], cols, rows)
+            enemy_pieces_list.append(piece)
+        if enemy[0] == "Empress":
+            piece = Empress(enemy[1][0], enemy[1][1], cols, rows)
+            enemy_pieces_list.append(piece)
+    moves = search(cols, rows, grid, enemy_pieces_list, own_piece, goals)
     return moves
 
+# print([king.get_coord() for king in King(5,5,10,10).get_actions()])
+
+# print([rook.get_coord() for rook in Rook(3,4,10,10).get_actions()])
+
+# print([bishop.get_coord() for bishop in Bishop(3, 3, 10, 10).get_actions()])
+# print([queen.get_coord() for queen in Queen(3, 3, 10, 10).get_actions()])
+# print([knight.get_coord() for knight in Knight(3, 4, 10, 10).get_actions()])
+# print([ferz.get_coord() for ferz in Ferz(4, 3, 10, 10).get_actions()])
+# print([princess.get_coord() for princess in Princess(4, 3, 10, 10).get_actions()])
+# print([empress.get_coord() for empress in Empress(4, 3, 10, 10).get_actions()])
 print(run_BFS())
