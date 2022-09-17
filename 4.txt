@@ -1,0 +1,9 @@
+Rows:10
+Cols:10
+Number of Obstacles:31
+Position of Obstacles (space between):b6 f6 b2 f2 d2 d6 f4 b4
+Step cost to move to selected grids (Default cost is 1) [Pos, Cost]:
+Position of Enemy Pieces:-
+Starting Position of King [Piece, Pos]:
+[King,a0]
+Goal Positions (space between):j7
