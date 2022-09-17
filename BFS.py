@@ -287,9 +287,8 @@ class Board:
 ######## State
 #############################################################################
 class State:
-    def __init__(self, board, enemy_pieces, own_piece, goals, max_y, max_x, path, action_cost):
+    def __init__(self, board, own_piece, goals, max_y, max_x, path, action_cost):
         self.board = board
-        self.enemy_pieces = enemy_pieces
         self.own_piece = own_piece
         self.goals = goals
         self.max_x = max_x
@@ -320,15 +319,15 @@ class State:
 
 
         # remove pieces on enemy pieces
-        copy_pieces_enemy = pieces.copy()
-        for enemy_piece in self.enemy_pieces:
-            for own_piece in copy_pieces_enemy:
-                # list comprehension for all possible enemy moves
-                enemy_moves = [i.get_coord() for i in enemy_piece.get_actions()]
-                enemy_moves.append(enemy_piece.get_coord())
-                #print(enemy_piece,enemy_moves)
-                if (enemy_moves and own_piece.get_coord() in enemy_moves):
-                    pieces.remove(own_piece)
+        # copy_pieces_enemy = pieces.copy()
+        # for enemy_piece in self.enemy_pieces:
+        #     for own_piece in copy_pieces_enemy:
+        #         # list comprehension for all possible enemy moves
+        #         enemy_moves = [i.get_coord() for i in enemy_piece.get_actions()]
+        #         enemy_moves.append(enemy_piece.get_coord())
+        #         #print(enemy_piece,enemy_moves)
+        #         if (enemy_moves and own_piece.get_coord() in enemy_moves):
+        #             pieces.remove(own_piece)
 
         # remove pieces in obstacles
         copy_pieces = pieces.copy()
@@ -347,7 +346,7 @@ class State:
             cost = self.board[piece.get_y()][piece.get_x()]
             new_path = self.path.copy()
             new_path.append(piece.get_coord())
-            new_state = State(self.board, self.enemy_pieces, piece, self.goals, self.max_x, self.max_y,
+            new_state = State(self.board, piece, self.goals, self.max_x, self.max_y,
                               new_path, self.action_cost + cost)
             transitions.append(new_state)
         return transitions
@@ -363,7 +362,23 @@ class State:
 ######## Implement Search Algorithm
 #############################################################################
 def search(cols, rows, grid, enemy_pieces, own_pieces, goals):
-    start_state = State(grid, enemy_pieces, own_pieces, goals, cols, rows, [own_pieces.get_coord()], 0)
+
+    def enemy_positions(enemy_pieces):
+        enemy_moves = []
+        for enemy_piece in enemy_pieces:
+            curr_enemy_moves = [i.get_numeric_coord() for i in enemy_piece.get_actions()]
+            curr_enemy_moves.append(enemy_piece.get_numeric_coord())
+            enemy_moves.extend(curr_enemy_moves)
+        return enemy_moves
+
+    def grid_with_enemy(grid, enemy_moves):
+        for position in enemy_moves:
+            grid[position[0]][position[1]] = -1
+        return grid
+
+    enemy_moves = enemy_positions(enemy_pieces)
+    grid = grid_with_enemy(grid, enemy_moves)
+    start_state = State(grid, own_pieces, goals, cols, rows, [own_pieces.get_coord()], 0)
     queue = []
     visited = [[False for i in range(cols)] for j in range(rows)]
     queue.append(start_state)
@@ -371,7 +386,7 @@ def search(cols, rows, grid, enemy_pieces, own_pieces, goals):
     while queue:
         curr_state = queue.pop(0)
         if curr_state.is_goal():
-            print(curr_state.get_action_cost())
+            ## print(curr_state.get_action_cost())
             return curr_state.get_path()
 
         trans = curr_state.get_transition()
@@ -453,7 +468,7 @@ def from_chess_coord(ch_coord):
 def run_BFS():
     testcase = sys.argv[1]
     rows, cols, grid, enemy_pieces, own_pieces, goals = parse(testcase)
-    own_piece = King(own_pieces[0][1][0], own_pieces[0][1][1], cols, rows)
+    own_piece = King(own_pieces[0][1][1], own_pieces[0][1][0], cols, rows)
     enemy_pieces_list = []
     for enemy in enemy_pieces:
         piece = "error"
