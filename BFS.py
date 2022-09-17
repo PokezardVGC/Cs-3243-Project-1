@@ -240,7 +240,7 @@ class Princess(Piece):
 
 class Empress(Piece):
     def __init__(self, x, y, max_x, max_y):
-        super().__init__('PEmpress', x, y, max_x, max_y)
+        super().__init__('Empress', x, y, max_x, max_y)
 
     def get_actions(self):
         ls = []
@@ -300,7 +300,6 @@ class State:
     #  multiple potential goals
     def is_goal(self):
         for goal in self.goals:
-            #  print([self.own_piece.get_coord(), goal])
             if self.own_piece.get_numeric_coord() == goal:
                 return True
         return False
@@ -319,13 +318,16 @@ class State:
             if piece.get_x() + 1 > self.max_x or piece.get_x() < 0 or piece.get_y() - 1 < 0 or piece.get_y() + 1 > self.max_y:
                 pieces.remove(piece)
 
+
         # remove pieces on enemy pieces
         copy_pieces_enemy = pieces.copy()
         for enemy_piece in self.enemy_pieces:
             for own_piece in copy_pieces_enemy:
                 # list comprehension for all possible enemy moves
-                enemy_moves = [i.get_coord() for i in enemy_piece.get_actions()].append(enemy_piece.get_coord())
-                if enemy_moves and own_piece.get_coord() in enemy_moves:
+                enemy_moves = [i.get_coord() for i in enemy_piece.get_actions()]
+                enemy_moves.append(enemy_piece.get_coord())
+                #print(enemy_piece,enemy_moves)
+                if (enemy_moves and own_piece.get_coord() in enemy_moves):
                     pieces.remove(own_piece)
 
         # remove pieces in obstacles
@@ -369,7 +371,7 @@ def search(cols, rows, grid, enemy_pieces, own_pieces, goals):
     while queue:
         curr_state = queue.pop(0)
         if curr_state.is_goal():
-            # print(curr_state.get_action_cost())
+            print(curr_state.get_action_cost())
             return curr_state.get_path()
 
         trans = curr_state.get_transition()
@@ -456,28 +458,28 @@ def run_BFS():
     for enemy in enemy_pieces:
         piece = "error"
         if enemy[0] == "King":
-            piece = King(enemy[1][0], enemy[1][1], cols, rows)
+            piece = King(enemy[1][1], enemy[1][0], cols, rows)
             enemy_pieces_list.append(piece)
         if enemy[0] == "Rook":
-            piece = Rook(enemy[1][0], enemy[1][1], cols, rows)
+            piece = Rook(enemy[1][1], enemy[1][0], cols, rows)
             enemy_pieces_list.append(piece)
         if enemy[0] == "Bishop":
-            piece = Bishop(enemy[1][0], enemy[1][1], cols, rows)
+            piece = Bishop(enemy[1][1], enemy[1][0], cols, rows)
             enemy_pieces_list.append(piece)
         if enemy[0] == "Queen":
-            piece = Queen(enemy[1][0], enemy[1][1], cols, rows)
+            piece = Queen(enemy[1][1], enemy[1][0], cols, rows)
             enemy_pieces_list.append(piece)
         if enemy[0] == "Knight":
-            piece = Knight(enemy[1][0], enemy[1][1], cols, rows)
+            piece = Knight(enemy[1][1], enemy[1][0], cols, rows)
             enemy_pieces_list.append(piece)
         if enemy[0] == "Ferz":
-            piece = Ferz(enemy[1][0], enemy[1][1], cols, rows)
+            piece = Ferz(enemy[1][1], enemy[1][0], cols, rows)
             enemy_pieces_list.append(piece)
         if enemy[0] == "Princess":
-            piece = Princess(enemy[1][0], enemy[1][1], cols, rows)
+            piece = Princess(enemy[1][1], enemy[1][0], cols, rows)
             enemy_pieces_list.append(piece)
         if enemy[0] == "Empress":
-            piece = Empress(enemy[1][0], enemy[1][1], cols, rows)
+            piece = Empress(enemy[1][1], enemy[1][0], cols, rows)
             enemy_pieces_list.append(piece)
     moves = search(cols, rows, grid, enemy_pieces_list, own_piece, goals)
     return moves
