@@ -489,7 +489,7 @@ def search(rows, cols, grid, enemy_pieces, own_pieces, goals):
     while stack:
         curr_state = stack.pop(0)
         if curr_state.is_goal():
-            print(curr_state.get_action_cost())
+            # print(curr_state.get_action_cost())
             return curr_state.get_path()
 
         trans = curr_state.get_transition()
@@ -571,4 +571,4 @@ def run_DFS():
     return moves
 
 
-print(run_DFS())
+# print(run_DFS())
