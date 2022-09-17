@@ -28,5 +28,5 @@ Position of Enemy Pieces:
 [Knight,d2]
 [King,f7]
 Starting Position of King [Piece, Pos]:
-[King,e5]
+[King,d5]
 Goal Positions (space between):a0 a9 j0 j9

@@ -6,12 +6,13 @@ import sys
 ######## Piece
 #############################################################################
 class Piece:
-    def __init__(self, piece_type, x, y, max_x, max_y):
+    def __init__(self, piece_type, x, y, max_x, max_y, grid):
         self.piece_type = piece_type
         self.x = x
         self.y = y
         self.max_x = max_x
         self.max_y = max_y
+        self.grid = grid
 
     def get_coord(self):
         return chr(self.x + 97), self.y
@@ -31,36 +32,55 @@ class Piece:
     def get_max_y(self):
         return self.max_y
 
+    def get_grid(self):
+        return self.grid
+
 
 class King(Piece):
-    def __init__(self, x, y, max_x, max_y):
-        super().__init__('King', x, y, max_x, max_y)
+    def __init__(self, x, y, max_x, max_y, grid):
+        super().__init__('King', x, y, max_x, max_y, grid)
 
     def get_actions(self):
         ls = []
-        right = King(self.get_x() + 1, self.get_y(), self.get_max_x(), self.get_max_y())
+        right = King(self.get_x() + 1, self.get_y(), self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(right)
-        left = King(self.get_x() - 1, self.get_y(), self.get_max_x(), self.get_max_y())
-        ls.append(left)
-        down = King(self.get_x(), self.get_y() - 1, self.get_max_x(), self.get_max_y())
-        ls.append(down)
-        up = King(self.get_x(), self.get_y() + 1, self.get_max_x(), self.get_max_y())
-        ls.append(up)
-        diag_left_up = King(self.get_x() - 1, self.get_y() + 1, self.get_max_x(), self.get_max_y())
-        ls.append(diag_left_up)
-        diag_right_up = King(self.get_x() + 1, self.get_y() + 1, self.get_max_x(), self.get_max_y())
+        diag_right_up = King(self.get_x() + 1, self.get_y() + 1, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(diag_right_up)
-        diag_left_down = King(self.get_x() - 1, self.get_y() - 1, self.get_max_x(), self.get_max_y())
+
+        left = King(self.get_x() - 1, self.get_y(), self.get_max_x(), self.get_max_y(), self.get_grid())
+        ls.append(left)
+        diag_left_up = King(self.get_x() - 1, self.get_y() + 1, self.get_max_x(), self.get_max_y(), self.get_grid())
+        ls.append(diag_left_up)
+
+        down = King(self.get_x(), self.get_y() - 1, self.get_max_x(), self.get_max_y(), self.get_grid())
+        ls.append(down)
+        diag_left_down = King(self.get_x() - 1, self.get_y() - 1, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(diag_left_down)
-        diag_right_down = King(self.get_x() + 1, self.get_y() - 1, self.get_max_x(), self.get_max_y())
+
+        up = King(self.get_x(), self.get_y() + 1, self.get_max_x(), self.get_max_y(), self.get_grid())
+        ls.append(up)
+        diag_right_down = King(self.get_x() + 1, self.get_y() - 1, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(diag_right_down)
-        return ls
+
+        pieces = ls.copy()
+        for piece in ls:
+            # assume a is start
+            if piece.get_x() + 1 > self.max_x or piece.get_x() < 0 or piece.get_y() - 1 < 0 or piece.get_y() + 1 > self.max_y:
+                pieces.remove(piece)
+
+        # remove pieces in obstacles
+        copy_pieces = pieces.copy()
+        for piece in copy_pieces:
+            obstacle = self.grid[piece.get_y()][piece.get_x()]
+            is_obstacle = obstacle == -1
+            if is_obstacle:
+                pieces.remove(piece)
+        return pieces
 
 
 class Rook(Piece):
     def __init__(self, x, y, max_x, max_y, grid):
-        super().__init__('Rook', x, y, max_x, max_y)
-        self.grid = grid
+        super().__init__('Rook', x, y, max_x, max_y, grid)
 
     def get_actions(self):
         ls = []
@@ -68,33 +88,32 @@ class Rook(Piece):
         for i in range(self.get_x() - 1, -1, -1):
             if self.grid[self.get_y()][i] == -1:
                 break
-            piece = Rook(i, self.get_y(), self.get_max_x(), self.get_max_y(), self.grid)
+            piece = Rook(i, self.get_y(), self.get_max_x(), self.get_max_y(), self.get_grid())
             ls.append(piece)
 
         for i in range(self.get_x() + 1, self.get_max_x()):
             if self.grid[self.get_y()][i] == -1:
                 break
-            piece = Rook(i, self.get_y(), self.get_max_x(), self.get_max_y(), self.grid)
+            piece = Rook(i, self.get_y(), self.get_max_x(), self.get_max_y(),  self.get_grid())
             ls.append(piece)
 
         for i in range(self.get_y() - 1, -1, -1):
             if self.grid[i][self.get_x()] == - 1:
                 break
-            piece = Rook(self.get_x(), i, self.get_max_x(), self.get_max_y(), self.grid)
+            piece = Rook(self.get_x(), i, self.get_max_x(), self.get_max_y(),  self.get_grid())
             ls.append(piece)
 
         for i in range(self.get_y() + 1, self.get_max_y()):
             if self.grid[i][self.get_x()] == - 1:
                 break
-            piece = Rook(self.get_x(), i, self.get_max_x(), self.get_max_y(), self.grid)
+            piece = Rook(self.get_x(), i, self.get_max_x(), self.get_max_y(),  self.get_grid())
             ls.append(piece)
         return ls
 
 
 class Bishop(Piece):
     def __init__(self, x, y, max_x, max_y, grid):
-        super().__init__('Bishop', x, y, max_x, max_y)
-        self.grid = grid
+        super().__init__('Bishop', x, y, max_x, max_y, grid)
 
     def get_actions(self):
         ls = []
@@ -105,7 +124,7 @@ class Bishop(Piece):
             if len(self.grid) > self.y + counter_2:
                 if self.grid[self.y + counter_2][i] == - 1:
                     break
-                piece = Bishop(i, self.y + counter_2, self.get_max_x(), self.get_max_y(), self.grid)
+                piece = Bishop(i, self.y + counter_2, self.get_max_x(), self.get_max_y(), self.get_grid())
                 ls.append(piece)
 
         counter_1 = 0
@@ -114,7 +133,7 @@ class Bishop(Piece):
             if len(self.grid) > self.y + counter_1:
                 if self.grid[self.y + counter_1][i] == - 1:
                     break
-                piece = Bishop(i, self.y + counter_1, self.get_max_x(), self.get_max_y(), self.grid)
+                piece = Bishop(i, self.y + counter_1, self.get_max_x(), self.get_max_y(), self.get_grid())
                 ls.append(piece)
 
         counter_3 = 0
@@ -123,7 +142,7 @@ class Bishop(Piece):
             if len(self.grid[0]) > self.x + counter_3:
                 if self.grid[i][self.x + counter_3] == -1:
                     break
-                piece = Bishop(self.x + counter_3, i, self.get_max_x(), self.get_max_y(), self.grid)
+                piece = Bishop(self.x + counter_3, i, self.get_max_x(), self.get_max_y(), self.get_grid())
                 ls.append(piece)
 
         counter_4 = 0
@@ -132,50 +151,49 @@ class Bishop(Piece):
             if self.x - counter_4 >= 0:
                 if self.grid[i][self.x - counter_4] == -1:
                     break
-                piece = Bishop(self.x - counter_4, i, self.get_max_x(), self.get_max_y(), self.grid)
+                piece = Bishop(self.x - counter_4, i, self.get_max_x(), self.get_max_y(), self.get_grid())
                 ls.append(piece)
-
         return ls
 
 
 class Queen(Piece):
     def __init__(self, x, y, max_x, max_y, grid):
-        super().__init__("Queen", x, y, max_x, max_y)
+        super().__init__("Queen", x, y, max_x, max_y, grid)
         self.grid = grid
 
     def get_actions(self):
         ls = []
 
-        #rook like movement
+        # rook like movement
         for i in range(self.get_x() - 1, -1, -1):
             if self.grid[self.get_y()][i] == -1:
                 break
-            piece = Rook(i, self.get_y(), self.get_max_x(), self.get_max_y(), self.grid)
+            piece = Rook(i, self.get_y(), self.get_max_x(), self.get_max_y(), self.get_grid())
             ls.append(piece)
         for i in range(self.get_x() + 1, self.get_max_x()):
             if self.grid[self.get_y()][i] == -1:
                 break
-            piece = Rook(i, self.get_y(), self.get_max_x(), self.get_max_y(), self.grid)
+            piece = Rook(i, self.get_y(), self.get_max_x(), self.get_max_y(), self.get_grid())
             ls.append(piece)
         for i in range(self.get_y() - 1, -1, -1):
             if self.grid[i][self.get_x()] == - 1:
                 break
-            piece = Rook(self.get_x(), i, self.get_max_x(), self.get_max_y(), self.grid)
+            piece = Rook(self.get_x(), i, self.get_max_x(), self.get_max_y(), self.get_grid())
             ls.append(piece)
         for i in range(self.get_y() + 1, self.get_max_y()):
             if self.grid[i][self.get_x()] == - 1:
                 break
-            piece = Rook(self.get_x(), i, self.get_max_x(), self.get_max_y(), self.grid)
+            piece = Rook(self.get_x(), i, self.get_max_x(), self.get_max_y(), self.get_grid())
             ls.append(piece)
 
-        #bishop like movement
+        # bishop like movement
         counter_2 = 0
         for i in range(self.x - 1, - 1, -1):
             counter_2 -= 1
             if len(self.grid) > self.y + counter_2:
                 if self.grid[self.y + counter_2][i] == - 1:
                     break
-                piece = Bishop(i, self.y + counter_2, self.get_max_x(), self.get_max_y(), self.grid)
+                piece = Bishop(i, self.y + counter_2, self.get_max_x(), self.get_max_y(), self.get_grid())
                 ls.append(piece)
         counter_1 = 0
         for i in range(self.x + 1, self.get_max_x()):
@@ -183,7 +201,7 @@ class Queen(Piece):
             if len(self.grid) > self.y + counter_1:
                 if self.grid[self.y + counter_1][i] == - 1:
                     break
-                piece = Bishop(i, self.y + counter_1, self.get_max_x(), self.get_max_y(), self.grid)
+                piece = Bishop(i, self.y + counter_1, self.get_max_x(), self.get_max_y(), self.get_grid())
                 ls.append(piece)
         counter_3 = 0
         for i in range(self.y - 1, - 1, -1):
@@ -191,7 +209,7 @@ class Queen(Piece):
             if len(self.grid[0]) > self.x + counter_3:
                 if self.grid[i][self.x + counter_3] == -1:
                     break
-                piece = Bishop(self.x + counter_3, i, self.get_max_x(), self.get_max_y(), self.grid)
+                piece = Bishop(self.x + counter_3, i, self.get_max_x(), self.get_max_y(), self.get_grid())
                 ls.append(piece)
         counter_4 = 0
         for i in range(self.y + 1, self.get_max_y()):
@@ -199,58 +217,98 @@ class Queen(Piece):
             if self.x - counter_4 >= 0:
                 if self.grid[i][self.x - counter_4] == -1:
                     break
-                piece = Bishop(self.x - counter_4, i, self.get_max_x(), self.get_max_y(), self.grid)
+                piece = Bishop(self.x - counter_4, i, self.get_max_x(), self.get_max_y(), self.get_grid())
                 ls.append(piece)
         return ls
 
 
 class Knight(Piece):
-    def __init__(self, x, y, max_x, max_y):
-        super().__init__('Knight', x, y, max_x, max_y)
+    def __init__(self, x, y, max_x, max_y, grid):
+        super().__init__('Knight', x, y, max_x, max_y, grid)
 
     def get_actions(self):
         ls = []
-        top_left = Knight(self.get_x() - 1, self.get_y() + 2, self.get_max_x(), self.get_max_y())
+
+        top_left = Knight(self.get_x() - 1, self.get_y() + 2, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(top_left)
-        top_right = Knight(self.get_x() + 1, self.get_y() + 2, self.get_max_x(), self.get_max_y())
+        top_right = Knight(self.get_x() + 1, self.get_y() + 2, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(top_right)
-        bottom_left = Knight(self.get_x() - 1, self.get_y() - 2, self.get_max_x(), self.get_max_y())
+
+        bottom_left = Knight(self.get_x() - 1, self.get_y() - 2, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(bottom_left)
-        bottom_right = Knight(self.get_x() + 1, self.get_y() - 2, self.get_max_x(), self.get_max_y())
+        bottom_right = Knight(self.get_x() + 1, self.get_y() - 2, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(bottom_right)
 
-        left_top = Knight(self.get_x() - 2, self.get_y() + 1, self.get_max_x(), self.get_max_y())
+        left_top = Knight(self.get_x() - 2, self.get_y() + 1, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(left_top)
-        left_top = Knight(self.get_x() - 2, self.get_y() - 1, self.get_max_x(), self.get_max_y())
-        ls.append(left_top)
-        right_top = Knight(self.get_x() + 2, self.get_y() + 1, self.get_max_x(), self.get_max_y())
-        ls.append(right_top)
-        right_top = Knight(self.get_x() + 2, self.get_y() - 1, self.get_max_x(), self.get_max_y())
-        ls.append(right_top)
-        return ls
 
+        left_bottom = Knight(self.get_x() - 2, self.get_y() - 1, self.get_max_x(), self.get_max_y(), self.get_grid())
+        ls.append(left_bottom)
+
+        right_top = Knight(self.get_x() + 2, self.get_y() + 1, self.get_max_x(), self.get_max_y(), self.get_grid())
+        ls.append(right_top)
+
+        right_bottom = Knight(self.get_x() + 2, self.get_y() - 1, self.get_max_x(), self.get_max_y(), self.get_grid())
+        ls.append(right_bottom)
+
+
+        pieces = ls.copy()
+        for piece in ls:
+            # assume a is start
+            if piece.get_x() + 1 > self.max_x or piece.get_x() < 0 or piece.get_y() < 0 or piece.get_y() + 1 > self.max_y:
+                pieces.remove(piece)
+
+
+        # remove pieces in obstacles
+        copy_pieces = pieces.copy()
+        for piece in copy_pieces:
+            obstacle = self.grid[piece.get_y()][piece.get_x()]
+            is_obstacle = obstacle == -1
+            if is_obstacle:
+                pieces.remove(piece)
+        return pieces
 
 class Ferz(Piece):
-    def __init__(self, x, y, max_x, max_y):
-        super().__init__('Ferz', x, y, max_x, max_y)
+    def __init__(self, x, y, max_x, max_y, grid):
+        super().__init__('Ferz', x, y, max_x, max_y, grid)
 
     def get_actions(self):
         ls = []
-        diag_left_up = King(self.get_x() - 1, self.get_y() + 1, self.get_max_x(), self.get_max_y())
-        ls.append(diag_left_up)
-        diag_right_up = King(self.get_x() + 1, self.get_y() + 1, self.get_max_x(), self.get_max_y())
-        ls.append(diag_right_up)
-        diag_left_down = King(self.get_x() - 1, self.get_y() - 1, self.get_max_x(), self.get_max_y())
-        ls.append(diag_left_down)
-        diag_right_down = King(self.get_x() + 1, self.get_y() - 1, self.get_max_x(), self.get_max_y())
-        ls.append(diag_right_down)
-        return ls
+        if self.get_y() + 1 < self.get_max_y():
+            if self.get_x() - 1 >= 0:
+                diag_left_up = King(self.get_x() - 1, self.get_y() + 1, self.get_max_x(), self.get_max_y(), self.get_grid())
+                ls.append(diag_left_up)
+            if self.get_x() + 1 < self.get_max_x():
+                diag_right_up = King(self.get_x() + 1, self.get_y() + 1, self.get_max_x(), self.get_max_y(), self.get_grid())
+                ls.append(diag_right_up)
+
+        if self.get_y() - 1 >= 0:
+            if self.get_x() - 1 >= 0:
+                diag_left_down = King(self.get_x() - 1, self.get_y() - 1, self.get_max_x(), self.get_max_y(), self.get_grid())
+                ls.append(diag_left_down)
+            if self.get_x() + 1 < self.get_max_x():
+                diag_right_down = King(self.get_x() + 1, self.get_y() - 1, self.get_max_x(), self.get_max_y(), self.get_grid())
+                ls.append(diag_right_down)
+
+        pieces = ls.copy()
+        for piece in ls:
+            # assume a is start
+            if piece.get_x() + 1 > self.max_x or piece.get_x() < 0 or piece.get_y() - 1 < 0 or piece.get_y() + 1 > self.max_y:
+                pieces.remove(piece)
+
+        # remove pieces in obstacles
+        copy_pieces = pieces.copy()
+        for piece in copy_pieces:
+            obstacle = self.grid[piece.get_y()][piece.get_x()]
+            is_obstacle = obstacle == -1
+            if is_obstacle:
+                pieces.remove(piece)
+        return pieces
 
 
 class Princess(Piece):
     def __init__(self, x, y, max_x, max_y, grid):
-        super().__init__('Princess', x, y, max_x, max_y)
-        self.grid = grid
+        super().__init__('Princess', x, y, max_x, max_y, grid)
 
     def get_actions(self):
         ls = []
@@ -261,7 +319,7 @@ class Princess(Piece):
             if len(self.grid) > self.y + counter_2:
                 if self.grid[self.y + counter_2][i] == - 1:
                     break
-                piece = Bishop(i, self.y + counter_2, self.get_max_x(), self.get_max_y(), self.grid)
+                piece = Bishop(i, self.y + counter_2, self.get_max_x(), self.get_max_y(),  self.get_grid())
                 ls.append(piece)
         counter_1 = 0
         for i in range(self.x + 1, self.get_max_x()):
@@ -269,7 +327,7 @@ class Princess(Piece):
             if len(self.grid) > self.y + counter_1:
                 if self.grid[self.y + counter_1][i] == - 1:
                     break
-                piece = Bishop(i, self.y + counter_1, self.get_max_x(), self.get_max_y(), self.grid)
+                piece = Bishop(i, self.y + counter_1, self.get_max_x(), self.get_max_y(), self.get_grid())
                 ls.append(piece)
         counter_3 = 0
         for i in range(self.y - 1, - 1, -1):
@@ -277,7 +335,7 @@ class Princess(Piece):
             if len(self.grid[0]) > self.x + counter_3:
                 if self.grid[i][self.x + counter_3] == -1:
                     break
-                piece = Bishop(self.x + counter_3, i, self.get_max_x(), self.get_max_y(), self.grid)
+                piece = Bishop(self.x + counter_3, i, self.get_max_x(), self.get_max_y(), self.get_grid())
                 ls.append(piece)
         counter_4 = 0
         for i in range(self.y + 1, self.get_max_y()):
@@ -285,33 +343,50 @@ class Princess(Piece):
             if self.x - counter_4 >= 0:
                 if self.grid[i][self.x - counter_4] == -1:
                     break
-                piece = Bishop(self.x - counter_4, i, self.get_max_x(), self.get_max_y(), self.grid)
+                piece = Bishop(self.x - counter_4, i, self.get_max_x(), self.get_max_y(), self.get_grid())
                 ls.append(piece)
 
-        top_left = Knight(self.get_x() - 1, self.get_y() + 2, self.get_max_x(), self.get_max_y())
+        top_left = Knight(self.get_x() - 1, self.get_y() + 2, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(top_left)
-        top_right = Knight(self.get_x() + 1, self.get_y() + 2, self.get_max_x(), self.get_max_y())
+        top_right = Knight(self.get_x() + 1, self.get_y() + 2, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(top_right)
-        bottom_left = Knight(self.get_x() - 1, self.get_y() - 2, self.get_max_x(), self.get_max_y())
+
+        bottom_left = Knight(self.get_x() - 1, self.get_y() - 2, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(bottom_left)
-        bottom_right = Knight(self.get_x() + 1, self.get_y() - 2, self.get_max_x(), self.get_max_y())
+        bottom_right = Knight(self.get_x() + 1, self.get_y() - 2, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(bottom_right)
 
-        left_top = Knight(self.get_x() - 2, self.get_y() + 1, self.get_max_x(), self.get_max_y())
+        left_top = Knight(self.get_x() - 2, self.get_y() + 1, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(left_top)
-        left_top = Knight(self.get_x() - 2, self.get_y() - 1, self.get_max_x(), self.get_max_y())
-        ls.append(left_top)
-        right_top = Knight(self.get_x() + 2, self.get_y() + 1, self.get_max_x(), self.get_max_y())
+
+        left_bottom = Knight(self.get_x() - 2, self.get_y() - 1, self.get_max_x(), self.get_max_y(), self.get_grid())
+        ls.append(left_bottom)
+
+        right_top = Knight(self.get_x() + 2, self.get_y() + 1, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(right_top)
-        right_top = Knight(self.get_x() + 2, self.get_y() - 1, self.get_max_x(), self.get_max_y())
-        ls.append(right_top)
-        return ls
+
+        right_bottom = Knight(self.get_x() + 2, self.get_y() - 1, self.get_max_x(), self.get_max_y(), self.get_grid())
+        ls.append(right_bottom)
+
+        pieces = ls.copy()
+        for piece in ls:
+            # assume a is start
+            if piece.get_x() + 1 > self.max_x or piece.get_x() < 0 or piece.get_y() < 0 or piece.get_y() + 1 > self.max_y:
+                pieces.remove(piece)
+
+        # remove pieces in obstacles
+        copy_pieces = pieces.copy()
+        for piece in copy_pieces:
+            obstacle = self.grid[piece.get_y()][piece.get_x()]
+            is_obstacle = obstacle == -1
+            if is_obstacle:
+                pieces.remove(piece)
+        return pieces
 
 
 class Empress(Piece):
     def __init__(self, x, y, max_x, max_y, grid):
-        super().__init__('Empress', x, y, max_x, max_y)
-        self.grid = grid
+        super().__init__('Empress', x, y, max_x, max_y, grid)
 
     def get_actions(self):
         ls = []
@@ -319,43 +394,61 @@ class Empress(Piece):
         for i in range(self.get_x() - 1, -1, -1):
             if self.grid[self.get_y()][i] == -1:
                 break
-            piece = Rook(i, self.get_y(), self.get_max_x(), self.get_max_y(), self.grid)
+            piece = Rook(i, self.get_y(), self.get_max_x(), self.get_max_y(), self.get_grid())
             ls.append(piece)
         for i in range(self.get_x() + 1, self.get_max_x()):
             if self.grid[self.get_y()][i] == -1:
                 break
-            piece = Rook(i, self.get_y(), self.get_max_x(), self.get_max_y(), self.grid)
+            piece = Rook(i, self.get_y(), self.get_max_x(), self.get_max_y(), self.get_grid())
             ls.append(piece)
         for i in range(self.get_y() - 1, -1, -1):
             if self.grid[i][self.get_x()] == - 1:
                 break
-            piece = Rook(self.get_x(), i, self.get_max_x(), self.get_max_y(), self.grid)
+            piece = Rook(self.get_x(), i, self.get_max_x(), self.get_max_y(), self.get_grid())
             ls.append(piece)
         for i in range(self.get_y() + 1, self.get_max_y()):
             if self.grid[i][self.get_x()] == - 1:
                 break
-            piece = Rook(self.get_x(), i, self.get_max_x(), self.get_max_y(), self.grid)
+            piece = Rook(self.get_x(), i, self.get_max_x(), self.get_max_y(), self.get_grid())
             ls.append(piece)
 
         # Knight like movement
-        top_left = Knight(self.get_x() - 1, self.get_y() + 2, self.get_max_x(), self.get_max_y())
+        top_left = Knight(self.get_x() - 1, self.get_y() + 2, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(top_left)
-        top_right = Knight(self.get_x() + 1, self.get_y() + 2, self.get_max_x(), self.get_max_y())
+        top_right = Knight(self.get_x() + 1, self.get_y() + 2, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(top_right)
-        bottom_left = Knight(self.get_x() - 1, self.get_y() - 2, self.get_max_x(), self.get_max_y())
+
+        bottom_left = Knight(self.get_x() - 1, self.get_y() - 2, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(bottom_left)
-        bottom_right = Knight(self.get_x() + 1, self.get_y() - 2, self.get_max_x(), self.get_max_y())
+        bottom_right = Knight(self.get_x() + 1, self.get_y() - 2, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(bottom_right)
 
-        left_top = Knight(self.get_x() - 2, self.get_y() + 1, self.get_max_x(), self.get_max_y())
+        left_top = Knight(self.get_x() - 2, self.get_y() + 1, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(left_top)
-        left_top = Knight(self.get_x() - 2, self.get_y() - 1, self.get_max_x(), self.get_max_y())
-        ls.append(left_top)
-        right_top = Knight(self.get_x() + 2, self.get_y() + 1, self.get_max_x(), self.get_max_y())
+
+        left_bottom = Knight(self.get_x() - 2, self.get_y() - 1, self.get_max_x(), self.get_max_y(), self.get_grid())
+        ls.append(left_bottom)
+
+        right_top = Knight(self.get_x() + 2, self.get_y() + 1, self.get_max_x(), self.get_max_y(), self.get_grid())
         ls.append(right_top)
-        right_top = Knight(self.get_x() + 2, self.get_y() - 1, self.get_max_x(), self.get_max_y())
-        ls.append(right_top)
-        return ls
+
+        right_bottom = Knight(self.get_x() + 2, self.get_y() - 1, self.get_max_x(), self.get_max_y(), self.get_grid())
+        ls.append(right_bottom)
+
+        pieces = ls.copy()
+        for piece in ls:
+            # assume a is start
+            if piece.get_x() + 1 > self.max_x or piece.get_x() < 0 or piece.get_y() < 0 or piece.get_y() + 1 > self.max_y:
+                pieces.remove(piece)
+
+        # remove pieces in obstacles
+        copy_pieces = pieces.copy()
+        for piece in copy_pieces:
+            obstacle = self.grid[piece.get_y()][piece.get_x()]
+            is_obstacle = obstacle == -1
+            if is_obstacle:
+                pieces.remove(piece)
+        return pieces
 
 
 #############################################################################
@@ -406,23 +499,24 @@ class State:
         # remove pieces in obstacles
         copy_pieces = pieces.copy()
         for piece in copy_pieces:
-            obstacle = self.board[piece.get_y()][piece.get_x()]
-            is_obstacle = obstacle == -1
-            if is_obstacle:
-                pieces.remove(piece)
-        # print([piece.get_coord() for piece in pieces])
+            if (piece.get_y() < piece.get_max_y()) and (piece.get_y() >= 0) and (piece.get_x() < piece.get_max_x()) and (piece.get_x() >= 0):
+                obstacle = self.board[piece.get_y()][piece.get_x()]
+                is_obstacle = obstacle == -1
+                if is_obstacle:
+                    pieces.remove(piece)
         return pieces
 
     #  return all transition states that are legal
     def get_transition(self):
         transitions = []
         for piece in self.get_actions():
-            cost = self.board[piece.get_y()][piece.get_x()]
-            new_path = self.path.copy()
-            new_path.append(piece.get_coord())
-            new_state = State(self.board, piece, self.goals, self.max_x, self.max_y,
-                              new_path, self.action_cost + cost)
-            transitions.append(new_state)
+            if (piece.get_y() < piece.get_max_y()) and (piece.get_y() >= 0) and (piece.get_x() < piece.get_max_x()) and (piece.get_x() >= 0):
+                cost = self.board[piece.get_y()][piece.get_x()]
+                new_path = self.path.copy()
+                new_path.append([self.own_piece.get_coord(), piece.get_coord()])
+                new_state = State(self.board, piece, self.goals, self.max_x, self.max_y,
+                                  new_path, self.action_cost + cost)
+                transitions.append(new_state)
         return transitions
 
     def get_path(self):
@@ -436,13 +530,17 @@ class State:
 ######## Implement Search Algorithm
 #############################################################################
 def search(rows, cols, grid, enemy_pieces, own_pieces, goals):
+    for enemy in enemy_pieces:
+        grid[enemy[1][0]][enemy[1][1]] = -1
 
-    own_piece = King(own_pieces[0][1][1], own_pieces[0][1][0], cols, rows)
+    own_piece = King(own_pieces[0][1][1], own_pieces[0][1][0], cols, rows, grid)
+
     enemy_pieces_list = []
+
     for enemy in enemy_pieces:
         piece = "error"
         if enemy[0] == "King":
-            piece = King(enemy[1][1], enemy[1][0], cols, rows)
+            piece = King(enemy[1][1], enemy[1][0], cols, rows, grid)
             enemy_pieces_list.append(piece)
         if enemy[0] == "Rook":
             piece = Rook(enemy[1][1], enemy[1][0], cols, rows, grid)
@@ -453,11 +551,11 @@ def search(rows, cols, grid, enemy_pieces, own_pieces, goals):
         if enemy[0] == "Queen":
             piece = Queen(enemy[1][1], enemy[1][0], cols, rows, grid)
             enemy_pieces_list.append(piece)
-        if enemy[0] == "Knight":
-            piece = Knight(enemy[1][1], enemy[1][0], cols, rows)
+        if enemy[0] == "Knight":# smt wrong with knight
+            piece = Knight(enemy[1][1], enemy[1][0], cols, rows, grid)
             enemy_pieces_list.append(piece)
         if enemy[0] == "Ferz":
-            piece = Ferz(enemy[1][1], enemy[1][0], cols, rows)
+            piece = Ferz(enemy[1][1], enemy[1][0], cols, rows, grid)
             enemy_pieces_list.append(piece)
         if enemy[0] == "Princess":
             piece = Princess(enemy[1][1], enemy[1][0], cols, rows, grid)
@@ -466,22 +564,24 @@ def search(rows, cols, grid, enemy_pieces, own_pieces, goals):
             piece = Empress(enemy[1][1], enemy[1][0], cols, rows, grid)
             enemy_pieces_list.append(piece)
 
+
     def enemy_positions(enemy_pieces_list):
         enemy_moves = []
         for enemy_piece in enemy_pieces_list:
             curr_enemy_moves = [i.get_numeric_coord() for i in enemy_piece.get_actions()]
-            curr_enemy_moves.append(enemy_piece.get_numeric_coord())
             enemy_moves.extend(curr_enemy_moves)
-        return enemy_moves
+        return list(set(enemy_moves))
 
     def grid_with_enemy(grid, enemy_pieces_list):
         for position in enemy_pieces_list:
             grid[position[0]][position[1]] = -1
         return grid
 
+
     enemy_moves = enemy_positions(enemy_pieces_list)
     grid = grid_with_enemy(grid, enemy_moves)
-    start_state = State(grid, own_piece, goals, cols, rows, [own_piece.get_coord()], 0)
+
+    start_state = State(grid, own_piece, goals, cols, rows, [], 0)
     visited = [[False for i in range(cols)] for j in range(rows)]
     visited[start_state.own_piece.get_y()][start_state.own_piece.get_x()] = True
 
@@ -489,7 +589,6 @@ def search(rows, cols, grid, enemy_pieces, own_pieces, goals):
     while stack:
         curr_state = stack.pop(0)
         if curr_state.is_goal():
-            # print(curr_state.get_action_cost())
             return curr_state.get_path()
 
         trans = curr_state.get_transition()
@@ -569,6 +668,3 @@ def run_DFS():
     rows, cols, grid, enemy_pieces, own_pieces, goals = parse(testcase)
     moves = search(rows, cols, grid, enemy_pieces, own_pieces, goals)
     return moves
-
-
-# print(run_DFS())
