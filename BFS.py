@@ -65,7 +65,7 @@ class King(Piece):
         pieces = ls.copy()
         for piece in ls:
             # assume a is start
-            if piece.get_x() + 1 > self.max_x or piece.get_x() < 0 or piece.get_y() - 1 < 0 or piece.get_y() + 1 > self.max_y:
+            if piece.get_x() >= self.max_x or piece.get_x() < 0 or piece.get_y() < 0 or piece.get_y() >= self.max_y:
                 pieces.remove(piece)
 
         # remove pieces in obstacles
@@ -260,7 +260,7 @@ class Knight(Piece):
         pieces = ls.copy()
         for piece in ls:
             # assume a is start
-            if piece.get_x() + 1 > self.max_x or piece.get_x() < 0 or piece.get_y() < 0 or piece.get_y() + 1 > self.max_y:
+            if piece.get_x() >= self.max_x or piece.get_x() < 0 or piece.get_y() < 0 or piece.get_y() >= self.max_y:
                 pieces.remove(piece)
 
         # remove pieces in obstacles
@@ -302,7 +302,7 @@ class Ferz(Piece):
         pieces = ls.copy()
         for piece in ls:
             # assume a is start
-            if piece.get_x() + 1 > self.max_x or piece.get_x() < 0 or piece.get_y() - 1 < 0 or piece.get_y() + 1 > self.max_y:
+            if piece.get_x() >= self.max_x or piece.get_x() < 0 or piece.get_y() < 0 or piece.get_y() >= self.max_y:
                 pieces.remove(piece)
 
         # remove pieces in obstacles
@@ -378,7 +378,7 @@ class Princess(Piece):
         pieces = ls.copy()
         for piece in ls:
             # assume a is start
-            if piece.get_x() + 1 > self.max_x or piece.get_x() < 0 or piece.get_y() < 0 or piece.get_y() + 1 > self.max_y:
+            if piece.get_x() >= self.max_x or piece.get_x() < 0 or piece.get_y() < 0 or piece.get_y() >= self.max_y:
                 pieces.remove(piece)
 
         # remove pieces in obstacles
@@ -446,7 +446,7 @@ class Empress(Piece):
         pieces = ls.copy()
         for piece in ls:
             # assume a is start
-            if piece.get_x() + 1 > self.max_x or piece.get_x() < 0 or piece.get_y() < 0 or piece.get_y() + 1 > self.max_y:
+            if piece.get_x() >= self.max_x or piece.get_x() < 0 or piece.get_y() < 0 or piece.get_y() >= self.max_y:
                 pieces.remove(piece)
 
         # remove pieces in obstacles
@@ -499,19 +499,6 @@ class State:
 
         # remove those pieces outside the board
         pieces = ls.copy()
-        # for piece in ls:
-        #     # assume a is start
-        #     if piece.get_x() + 1 > self.max_x or piece.get_x() < 0 or piece.get_y() - 1 < 0 or piece.get_y() + 1 > self.max_y:
-        #         pieces.remove(piece)
-        #
-        # # remove pieces in obstacles
-        # copy_pieces = pieces.copy()
-        # for piece in copy_pieces:
-        #     if (piece.get_y() < piece.get_max_y()) and (piece.get_y() >= 0) and (piece.get_x() < piece.get_max_x()) and (piece.get_x() >= 0):
-        #         obstacle = self.board[piece.get_y()][piece.get_x()]
-        #         is_obstacle = obstacle == -1
-        #         if is_obstacle:
-        #             pieces.remove(piece)
         return pieces
 
     #  return all transition states that are legal
